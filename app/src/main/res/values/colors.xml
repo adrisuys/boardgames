@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="pale_rose">#FEA47F</color>
+    <color name="yellow">#EAB543</color>
+    <color name="sky_blue">#55E6C1</color>
+    <color name="pale_orange">#F97F51</color>
+    <color name="magenta">#B33771</color>
+    <color name="green_blue">#58B19F</color>
+    <color name="cyan">#9AECDB</color>
+    <color name="navy_blue">#FF106254</color>
+    <color name="purple_red">#6D214F</color>
+    <color name="purple">#82589F</color>
+    <color name="pale_yellow">#F8EFBA</color>
+</resources>
