@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:background="@drawable/rounded_list_item">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,7 +13,8 @@
         android:id="@+id/name"
         android:text="name of games"
         android:textSize="20dp"
-        android:textColor="@color/green_blue"/>
+        android:textColor="@color/green_blue"
+        android:fontFamily="@font/montserrat_regular"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,7 +35,8 @@
             android:textSize="15dp"
             android:text="1-4"
             android:layout_marginRight="5dp"
-            android:textColor="@color/purple_red"/>
+            android:textColor="@color/purple_red"
+            android:fontFamily="@font/montserrat_regular"/>
 
         <View
             android:layout_width="1dp"
@@ -55,7 +58,8 @@
             android:text="35-60''"
             android:textSize="15dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/purple_red"/>
+            android:textColor="@color/purple_red"
+            android:fontFamily="@font/montserrat_regular"/>
 
         <View
             android:layout_width="1dp"
@@ -81,7 +85,8 @@
             android:text="3.5/5"
             android:layout_marginRight="5dp"
             android:textSize="15dp"
-            android:textColor="@color/purple_red"/>
+            android:textColor="@color/purple_red"
+            android:fontFamily="@font/montserrat_regular"/>
 
         <View
             android:layout_width="0dp"
@@ -96,11 +101,5 @@
             android:layout_gravity="right"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/magenta"/>
 
 </LinearLayout>

@@ -38,7 +38,6 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Favourites");
         presenter = new FavsPresenter(this);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

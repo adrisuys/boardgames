@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Boardgames");
         presenter = new MainPresenter(this);
         retrieveGamesFromDB();
         recyclerView = findViewById(R.id.recyclerView);
@@ -113,25 +112,6 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.favs:
-                displayFavs();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
-
     public void onSearchStarted(View v){
         String input = searchBar.getText().toString().toLowerCase().trim();
         if (input.isEmpty()){
@@ -142,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
             progressBar.setVisibility(View.VISIBLE);
             dbManager.makeRequest(input);
         }
+    }
+
+    public void displayFavs(View v){
+        startActivity(new Intent(this, FavouritesActivity.class));
     }
 
     public void retrieveGamesFromDB(){
@@ -172,10 +156,6 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
                 return false; // pass on to other listeners.
             }
         });
-    }
-
-    private void displayFavs(){
-
     }
 
     @Override

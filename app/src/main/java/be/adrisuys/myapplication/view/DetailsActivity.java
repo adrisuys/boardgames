@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import be.adrisuys.myapplication.model.Game;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private TextView description;
+    private TextView description, name;
     private ImageView img;
     private Game currentGame;
 
@@ -29,13 +30,15 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         currentGame = DataHolder.getCurrentGame();
-        getSupportActionBar().setTitle(currentGame.getNameAndYear());
+        name = findViewById(R.id.game_title);
         description = findViewById(R.id.description);
+        description.setMovementMethod(new ScrollingMovementMethod());
         img = findViewById(R.id.img);
         displayGameDetails();
     }
 
     private void displayGameDetails() {
+        name.setText(currentGame.getNameAndYear());
         description.setText(Html.fromHtml(currentGame.getDescription()));
         setImage();
     }

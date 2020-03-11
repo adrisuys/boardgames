@@ -4,13 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:paddingLeft="10dp"
-    android:paddingTop="25dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="10dp"
-    android:background="@color/white">
+    android:background="@color/light_grey">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/header"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:id="@+id/game_title"/>
+
+    </FrameLayout>
 
     <ImageView
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:id="@+id/img"
@@ -22,6 +44,10 @@
         android:id="@+id/description"
         android:textAlignment="center"
         android:textSize="15dp"
-        android:textColor="@color/purple_red"/>
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/purple_red"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:scrollbars="vertical"/>
 
 </LinearLayout>

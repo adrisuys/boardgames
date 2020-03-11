@@ -3,47 +3,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity"
+    android:background="@color/light_grey"
     android:orientation="vertical"
-    android:background="@color/white">
+    tools:context=".view.MainActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/header"
+            android:adjustViewBounds="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Boardgames"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:paddingBottom="30dp"
+                android:weightSum="12">
+
+                <EditText
+                    android:id="@+id/search_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="10"
+                    android:background="@drawable/rounded_white_rect"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:id="@+id/search_button"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/circle"
+                    android:onClick="onSearchStarted"
+                    android:src="@drawable/ic_search_black_24dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:weightSum="12"
-        android:padding="5dp"
-        android:background="@color/cyan">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:paddingBottom="15dp">
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:id="@+id/search_bar"
-            android:singleLine="true"/>
-
-        <ImageView
-            android:background="@null"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:id="@+id/search_button"
-            android:onClick="onSearchStarted"
-            android:src="@drawable/ic_search_black_24dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See favourites"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button"
+            android:onClick="displayFavs"/>
 
     </LinearLayout>
-
-    <ProgressBar
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:id="@+id/recyclerView"/>
 
 </LinearLayout>
