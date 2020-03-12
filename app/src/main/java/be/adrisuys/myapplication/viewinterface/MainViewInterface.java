@@ -5,4 +5,5 @@ public interface MainViewInterface {
     void backUp();
     void switchActivityToDetails();
     void hideProgressBar();
+    void displayNoGameFound();
 }

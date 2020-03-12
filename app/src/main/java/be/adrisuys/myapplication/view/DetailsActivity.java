@@ -21,7 +21,7 @@ import be.adrisuys.myapplication.model.Game;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private TextView description, name;
+    private TextView description, name, categories;
     private ImageView img;
     private Game currentGame;
 
@@ -32,6 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
         currentGame = DataHolder.getCurrentGame();
         name = findViewById(R.id.game_title);
         description = findViewById(R.id.description);
+        categories = findViewById(R.id.categories);
         description.setMovementMethod(new ScrollingMovementMethod());
         img = findViewById(R.id.img);
         displayGameDetails();
@@ -40,6 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void displayGameDetails() {
         name.setText(currentGame.getNameAndYear());
         description.setText(Html.fromHtml(currentGame.getDescription()));
+        categories.setText(currentGame.getCategories());
         setImage();
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 public class DataHolder {
     private static List<Game> liked;
     private static Game currentGame;
+    private static List<Categorie> categories;
 
     public static void setLiked(List<Game> liked) {
         DataHolder.liked = liked;
@@ -47,5 +48,13 @@ public class DataHolder {
 
     public static void setCurrentGame(Game currentGame) {
         DataHolder.currentGame = currentGame;
+    }
+
+    public static void setCategories(List<Categorie> categories) {
+        DataHolder.categories = categories;
+    }
+
+    public static List<Categorie> getCategories() {
+        return categories;
     }
 }

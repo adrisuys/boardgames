@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_favourites);
         presenter = new FavsPresenter(this);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -71,6 +72,16 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     public void switchActivityToDetails() {
         Intent i = new Intent(this, DetailsActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void displayNoGameLiked() {
+        Toast.makeText(this, "You don't like any game yet..", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateList() {
+        displayGames();
     }
 
     private void displayGames(){

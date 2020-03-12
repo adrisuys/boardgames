@@ -112,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void displayNoGameFound() {
+        Toast.makeText(this, "No game found...", Toast.LENGTH_SHORT).show();
+    }
+
     public void onSearchStarted(View v){
         String input = searchBar.getText().toString().toLowerCase().trim();
         if (input.isEmpty()){

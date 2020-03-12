@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_grey"
-    android:orientation="vertical"
-    tools:context=".view.MainActivity">
+    tools:context=".view.MainActivity"
+    android:id="@+id/screen">
 
     <FrameLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,34 +35,35 @@
                 android:textColor="@color/white"
                 android:textSize="30dp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:paddingBottom="30dp"
-                android:weightSum="12">
+                android:paddingBottom="30dp">
 
                 <EditText
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/search_button"
+                    android:paddingLeft="10dp"
                     android:id="@+id/search_bar"
                     android:layout_width="0dp"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="5dp"
-                    android:layout_weight="10"
                     android:background="@drawable/rounded_white_rect"
                     android:fontFamily="@font/montserrat_regular"
                     android:singleLine="true" />
 
                 <ImageView
+                    android:layout_alignParentRight="true"
                     android:id="@+id/search_button"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_weight="2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/circle"
                     android:onClick="onSearchStarted"
                     android:src="@drawable/ic_search_black_24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -68,22 +71,28 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
+        android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:layout_below="@id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
     <LinearLayout
+        android:layout_alignParentEnd="true"
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="bottom"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:paddingBottom="15dp">
 
         <Button
@@ -97,4 +106,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

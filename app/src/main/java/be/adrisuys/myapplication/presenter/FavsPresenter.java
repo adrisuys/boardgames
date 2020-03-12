@@ -15,6 +15,9 @@ public class FavsPresenter {
     public FavsPresenter(FavsViewInterface view){
         this.view = view;
         items = DataHolder.getLikedGames();
+        if (items.size() == 0){
+            view.displayNoGameLiked();
+        }
     }
 
     public Game getGameAtIndex(int adapterPosition) {
@@ -28,6 +31,8 @@ public class FavsPresenter {
             DataHolder.likeGame(game);
         }
         view.backUp();
+        items = DataHolder.getLikedGames();
+        view.updateList();
     }
 
     public void displayGameInfos(int adapterPosition) {

@@ -3,6 +3,8 @@ package be.adrisuys.myapplication.model;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game implements Serializable {
 
@@ -16,6 +18,7 @@ public class Game implements Serializable {
     private int numUserRatings;
     private double averageUserRatings;
     private String imgUrl;
+    private List<Categorie> categories;
 
     public Game(String name, int yearPublished, int minPlayers, int maxPlayers, int minPlaytime, int maxPlaytime, String description, int numUserRatings, double averageUserRatings, String imgUrl) {
         this.name = name;
@@ -28,6 +31,11 @@ public class Game implements Serializable {
         this.numUserRatings = numUserRatings;
         this.averageUserRatings = averageUserRatings;
         this.imgUrl = imgUrl;
+        categories = new ArrayList<>();
+    }
+
+    public void addCategorie(Categorie categorie) {
+        this.categories.add(categorie);
     }
 
     public String getName() {
@@ -80,5 +88,18 @@ public class Game implements Serializable {
     @Override
     public String toString() {
         return getNameAndYear() + " " + getNumbersOfPlayers() + " " + getPlayTime() + " " + getRatings() + " " + getDescription();
+    }
+
+    public String getCategories(){
+        String s = "Categories : ";
+        for (int i = 0; i < categories.size(); i++){
+            Categorie c = categories.get(i);
+            if (i != categories.size() - 1){
+                s += c.getName() + ", ";
+            } else {
+                s += c.getName();
+            }
+        }
+        return s;
     }
 }

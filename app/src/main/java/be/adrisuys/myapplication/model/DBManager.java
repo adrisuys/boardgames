@@ -9,9 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +35,7 @@ public class DBManager {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
+        fetchCategories();
     }
 
     private String getUrl(String search){
@@ -45,7 +44,6 @@ public class DBManager {
 
     public void makeRequest(String search){
         String url = getUrl(search);
-        System.out.println(url);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -81,18 +79,68 @@ public class DBManager {
         }
     }
 
-    private Game generateGame(JSONObject jsonGame) throws JSONException {
-        String name = jsonGame.getString("name");
+    private Game generateGame(JSONObject jsonGame) {
+        String name = jsonGame.optString("name", "");
         int yearPublished = jsonGame.optInt("year_published", 0);
         int minPlayers = jsonGame.optInt("min_players", 0);
         int maxPlayers = jsonGame.optInt("max_players", 0);
         int minPlaytime = jsonGame.optInt("min_playtime", 0);
         int maxPlaytime = jsonGame.optInt("max_playtime", 0);
         String description = jsonGame.optString("description", "");
-        int numUserRatings = jsonGame.getInt("num_user_ratings");
+        int numUserRatings = jsonGame.optInt("num_user_ratings", 0);
         double averageUserRatings = jsonGame.optDouble("average_user_rating", 0);
         String imgUrl = jsonGame.optString("image_url", "");
-        return new Game(name, yearPublished, minPlayers, maxPlayers, minPlaytime, maxPlaytime, description, numUserRatings, averageUserRatings, imgUrl);
+        Game game = new Game(name, yearPublished, minPlayers, maxPlayers, minPlaytime, maxPlaytime, description, numUserRatings, averageUserRatings, imgUrl);
+        try{
+            JSONArray arr = (JSONArray) jsonGame.get("categories");
+            for (int i = 0; i < arr.length(); i++){
+                JSONObject obj = (JSONObject) arr.get(i);
+                String id = obj.optString("id", "");
+                if (id != ""){
+                    Categorie cat = presenter.getCategoriesById(id);
+                    game.addCategorie(cat);
+                }
+            }
+        } catch (JSONException e){
+            // do nothing
+        }
+        return game;
+    }
+
+    private void fetchCategories(){
+        if (DataHolder.getCategories() == null){
+            String url = "https://www.boardgameatlas.com/api/game/categories?pretty=true&client_id=MLymII3VXu";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            saveCategories(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("ERROR " + error);
+                        }
+                    });
+            jsonObjectRequest.setShouldCache(false);
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(jsonObjectRequest);
+        } else {
+            presenter.setCategories(DataHolder.getCategories());
+        }
+    }
+
+    private void saveCategories(JSONObject response) {
+        try {
+            JSONArray jsonCat = (JSONArray) response.get("categories");
+            List<Categorie> categories = gson.fromJson(jsonCat.toString(), new TypeToken<List<Categorie>>(){}.getType());
+            presenter.setCategories(categories);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
