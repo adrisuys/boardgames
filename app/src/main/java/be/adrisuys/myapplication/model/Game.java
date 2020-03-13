@@ -18,9 +18,10 @@ public class Game implements Serializable {
     private int numUserRatings;
     private double averageUserRatings;
     private String imgUrl;
+    private int minAge;
     private List<Categorie> categories;
 
-    public Game(String name, int yearPublished, int minPlayers, int maxPlayers, int minPlaytime, int maxPlaytime, String description, int numUserRatings, double averageUserRatings, String imgUrl) {
+    public Game(String name, int yearPublished, int minPlayers, int maxPlayers, int minPlaytime, int maxPlaytime, String description, int numUserRatings, double averageUserRatings, String imgUrl, int minAge) {
         this.name = name;
         this.yearPublished = yearPublished;
         this.minPlayers = minPlayers;
@@ -31,6 +32,7 @@ public class Game implements Serializable {
         this.numUserRatings = numUserRatings;
         this.averageUserRatings = averageUserRatings;
         this.imgUrl = imgUrl;
+        this.minAge = minAge;
         categories = new ArrayList<>();
     }
 
@@ -82,6 +84,14 @@ public class Game implements Serializable {
             return name;
         }
         return name + " (" + yearPublished + ")";
+    }
+
+    public String getMinAge() {
+        if (minAge <= 0){
+            return "?";
+        } else {
+            return minAge + "+";
+        }
     }
 
     @NonNull

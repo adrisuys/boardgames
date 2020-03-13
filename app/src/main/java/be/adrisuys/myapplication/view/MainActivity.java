@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView name, players, time, rating;
+        TextView name, players, time, rating, age;
         ImageButton likeBtn;
         RatingBar ratingBar;
 
@@ -180,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
             players.setOnClickListener(this);
             time = itemView.findViewById(R.id.game_time);
             time.setOnClickListener(this);
+            age = itemView.findViewById(R.id.min_age);
+            age.setOnClickListener(this);
             rating = itemView.findViewById(R.id.ratings);
             rating.setOnClickListener(this);
             likeBtn = itemView.findViewById(R.id.like_btn);
@@ -210,8 +212,9 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
         public void displayItem(Game item) {
             name.setText(item.getName());
-            players.setText(item.getNumbersOfPlayers() + " ppl");
+            players.setText(item.getNumbersOfPlayers());
             time.setText(item.getPlayTime());
+            age.setText(item.getMinAge());
             ratingBar.setRating(item.getRatingAsFloat());
             rating.setText(item.getNumberOfRatings());
             if (DataHolder.isLiked(item)){
