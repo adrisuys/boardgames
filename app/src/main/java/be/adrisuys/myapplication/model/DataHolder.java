@@ -7,8 +7,8 @@ public class DataHolder {
     private static Game currentGame;
     private static List<Categorie> categories;
 
-    public static void setLiked(List<Game> liked) {
-        DataHolder.liked = liked;
+    public static void setLiked(List<Game> other) {
+        liked = other;
     }
 
     public static List<Game> getLikedGames(){
@@ -27,7 +27,6 @@ public class DataHolder {
     public static void unlikeGame(Game game){
         for (int i = 0; i < liked.size(); i++){
             if (liked.get(i).getName().equals(game.getName()) && liked.get(i).getPlayTime().equals(game.getPlayTime())){
-                System.out.println("isisis");
                 liked.remove(i);
             }
         }

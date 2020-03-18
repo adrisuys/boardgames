@@ -39,7 +39,7 @@ public class DBManager {
     }
 
     private String getUrl(String search){
-        return "https://www.boardgameatlas.com/api/search?name=" + search + "&client_id=MLymII3VXu";
+        return "https://www.boardgameatlas.com/api/search?name=" + search + "&client_id=MLymII3VXu&fuzzy_match=true";
     }
 
     public void makeRequest(String search){
@@ -56,7 +56,6 @@ public class DBManager {
                         System.out.println("ERROR " + error);
                     }
                 });
-        jsonObjectRequest.setShouldCache(false);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

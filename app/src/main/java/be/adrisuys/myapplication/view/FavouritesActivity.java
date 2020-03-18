@@ -2,6 +2,7 @@ package be.adrisuys.myapplication.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -19,8 +20,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import be.adrisuys.myapplication.R;
 import be.adrisuys.myapplication.model.DataHolder;
@@ -49,23 +53,14 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
 
     @Override
     public void backUp() {
-        ObjectOutputStream oos = null;
-        try {
-            FileOutputStream fos = openFileOutput(GAME_FILE, Context.MODE_PRIVATE);
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(DataHolder.getLikedGames());
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            if (oos != null){
-                try {
-                    oos.flush();
-                    oos.close();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
+        List<Game> favs = DataHolder.getLikedGames();
+        System.out.println(DataHolder.getLikedGames().size());
+        String json = new Gson().toJson(favs);
+        System.out.println(json);
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("favs", json);
+        editor.commit();
     }
 
     @Override
@@ -138,7 +133,7 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
 
         public void displayItem(Game item) {
             name.setText(item.getName());
-            players.setText(item.getNumbersOfPlayers() + " ppl");
+            players.setText(item.getNumbersOfPlayers());
             time.setText(item.getPlayTime());
             ratingBar.setRating(item.getRatingAsFloat());
             rating.setText(item.getNumberOfRatings());

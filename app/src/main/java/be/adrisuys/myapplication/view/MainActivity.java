@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -27,6 +28,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -82,23 +86,13 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
 
     @Override
     public void backUp() {
-        ObjectOutputStream oos = null;
-        try {
-            FileOutputStream fos = openFileOutput(GAME_FILE, Context.MODE_PRIVATE);
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(DataHolder.getLikedGames());
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            if (oos != null){
-                try {
-                    oos.flush();
-                    oos.close();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
+        List<Game> favs = DataHolder.getLikedGames();
+        String json = new Gson().toJson(favs);
+        System.out.println(json);
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("favs", json);
+        editor.commit();
     }
 
     @Override
@@ -134,20 +128,13 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
     }
 
     public void retrieveGamesFromDB(){
-        List<Game> games = null;
-        try {
-            FileInputStream fis = openFileInput(GAME_FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            games = (List<Game>) ois.readObject();
-            for (Game g : games) System.out.println(g);
-            DataHolder.setLiked(games);
-            ois.close();
-            fis.close();
-        } catch (Exception e){
-            games = new ArrayList<>();
-            DataHolder.setLiked(games);
-            e.printStackTrace();
+        List<Game> games = new ArrayList<>();
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        String json = sharedPreferences.getString("favs", null);
+        if (json != null){
+            games = new Gson().fromJson(json, new TypeToken<List<Game>>(){}.getType());
         }
+        DataHolder.setLiked(games);
     }
 
     private void handleSearchBar() {

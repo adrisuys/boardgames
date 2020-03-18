@@ -24,16 +24,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_regular"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="Boardgames"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="30dp" />
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_white_24dp"
+                    android:background="@null"
+                    android:onClick="displayFavs"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Boardgames"
+                    android:layout_marginLeft="-40dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,7 +103,8 @@
         android:layout_margin="5dp"
         android:scrollbars="vertical"/>
 
-    <LinearLayout
+    <!--<LinearLayout
+        android:layout_below="@id/recyclerView"
         android:layout_alignParentEnd="true"
         android:id="@+id/footer"
         android:layout_width="match_parent"
@@ -104,6 +124,6 @@
             android:background="@drawable/rounded_button"
             android:onClick="displayFavs"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 </RelativeLayout>

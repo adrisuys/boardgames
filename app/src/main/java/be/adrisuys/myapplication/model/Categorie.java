@@ -1,6 +1,8 @@
 package be.adrisuys.myapplication.model;
 
-public class Categorie {
+import java.io.Serializable;
+
+public class Categorie implements Serializable {
 
     private String id;
     private String name;
