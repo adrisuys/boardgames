@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.DetailsActivity"/>
-        <activity android:name=".view.FavouritesActivity"/>
+        <activity android:name=".view.SecondaryActivity"/>
     </application>
 
 </manifest>

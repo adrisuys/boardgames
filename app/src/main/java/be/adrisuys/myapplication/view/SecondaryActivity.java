@@ -1,6 +1,5 @@
 package be.adrisuys.myapplication.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -22,28 +21,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 import be.adrisuys.myapplication.R;
 import be.adrisuys.myapplication.model.DataHolder;
 import be.adrisuys.myapplication.model.Game;
-import be.adrisuys.myapplication.presenter.FavsPresenter;
-import be.adrisuys.myapplication.viewinterface.FavsViewInterface;
+import be.adrisuys.myapplication.presenter.SecondaryPresenter;
+import be.adrisuys.myapplication.viewinterface.SecondaryViewInterface;
 
-public class FavouritesActivity extends AppCompatActivity implements FavsViewInterface {
+public class SecondaryActivity extends AppCompatActivity implements SecondaryViewInterface {
 
-    private static final String GAME_FILE = "saved_games";
     private RecyclerView recyclerView;
-    private FavsPresenter presenter;
+    private SecondaryPresenter presenter;
     private MyAdapter adapter;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
-        presenter = new FavsPresenter(this);
+        title = findViewById(R.id.title);
+        String mode = getIntent().getStringExtra("mode");
+        title.setText((mode.equals("LIKE")) ? "Wish List" : "My games");
+        presenter = new SecondaryPresenter(this, mode);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -54,12 +54,13 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     @Override
     public void backUp() {
         List<Game> favs = DataHolder.getLikedGames();
-        System.out.println(DataHolder.getLikedGames().size());
         String json = new Gson().toJson(favs);
-        System.out.println(json);
+        List<Game> owned = DataHolder.getOwnedGames();
+        String jsonBis = new Gson().toJson(owned);
         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("favs", json);
+        editor.putString("owned", jsonBis);
         editor.commit();
     }
 
@@ -75,13 +76,18 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     }
 
     @Override
+    public void displayNoGameOwned() {
+        Toast.makeText(this, "You don't own any game yet..", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void updateList() {
         displayGames();
     }
 
     private void displayGames(){
         if (adapter == null){
-            adapter = new FavouritesActivity.MyAdapter(presenter);
+            adapter = new SecondaryActivity.MyAdapter(presenter);
             recyclerView.setAdapter(adapter);
         } else {
             adapter.setPresenter(presenter);
@@ -92,7 +98,7 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
     public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, players, time, rating;
-        ImageButton likeBtn;
+        ImageButton likeBtn, ownBtn;
         RatingBar ratingBar;
 
         public MyHolder(@NonNull View itemView) {
@@ -109,26 +115,43 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    handleClick();
+                    handleClickLike();
+                }
+            });
+            ownBtn = itemView.findViewById(R.id.own_btn);
+            ownBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleClickOwn();
                 }
             });
             ratingBar = itemView.findViewById(R.id.rating_bar);
             setRatingBarColor();
         }
 
-        private void handleClick(){
+        private void handleClickLike(){
             Game game = presenter.getGameAtIndex(getAdapterPosition());
             if (DataHolder.isLiked(game)){
-                likeBtn.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                likeBtn.setBackgroundResource(R.drawable.like_bordered);
             } else {
-                likeBtn.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+                likeBtn.setBackgroundResource(R.drawable.like_filled);
             }
             presenter.updateLike(game);
         }
 
+        private void handleClickOwn(){
+            Game game = presenter.getGameAtIndex(getAdapterPosition());
+            if (DataHolder.isOwned(game)){
+                ownBtn.setBackgroundResource(R.drawable.owned_false);
+            } else {
+                ownBtn.setBackgroundResource(R.drawable.owned_true);
+            }
+            presenter.updateOwn(game);
+        }
+
         private void setRatingBarColor() {
             LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(ContextCompat.getColor(FavouritesActivity.this, R.color.magenta), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(2).setColorFilter(ContextCompat.getColor(SecondaryActivity.this, R.color.magenta), PorterDuff.Mode.SRC_ATOP);
         }
 
         public void displayItem(Game item) {
@@ -138,9 +161,14 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
             ratingBar.setRating(item.getRatingAsFloat());
             rating.setText(item.getNumberOfRatings());
             if (DataHolder.isLiked(item)){
-                likeBtn.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+                likeBtn.setBackgroundResource(R.drawable.like_filled);
             } else {
-                likeBtn.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                likeBtn.setBackgroundResource(R.drawable.like_bordered);
+            }
+            if (DataHolder.isOwned(item)){
+                ownBtn.setBackgroundResource(R.drawable.owned_true);
+            } else {
+                ownBtn.setBackgroundResource(R.drawable.owned_false);
             }
         }
 
@@ -150,27 +178,27 @@ public class FavouritesActivity extends AppCompatActivity implements FavsViewInt
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<FavouritesActivity.MyHolder> {
+    private class MyAdapter extends RecyclerView.Adapter<SecondaryActivity.MyHolder> {
 
-        private FavsPresenter presenter;
+        private SecondaryPresenter presenter;
 
-        MyAdapter(FavsPresenter presenter){
+        MyAdapter(SecondaryPresenter presenter){
             this.presenter = presenter;
         }
 
-        public void setPresenter(FavsPresenter presenter) {
+        public void setPresenter(SecondaryPresenter presenter) {
             this.presenter = presenter;
         }
 
         @NonNull
         @Override
-        public FavouritesActivity.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public SecondaryActivity.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-            return new FavouritesActivity.MyHolder(viewItem);
+            return new SecondaryActivity.MyHolder(viewItem);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull FavouritesActivity.MyHolder holder, int position) {
+        public void onBindViewHolder(@NonNull SecondaryActivity.MyHolder holder, int position) {
             presenter.onBindViewHolder(holder, position);
         }
 

@@ -49,6 +49,15 @@ public class MainPresenter {
         view.backUp();
     }
 
+    public void updateOwn(Game game) {
+        if (DataHolder.isOwned(game)){
+            DataHolder.loseGame(game);
+        } else {
+            DataHolder.ownGame(game);
+        }
+        view.backUp();
+    }
+
     public void displayGameInfos(int adapterPosition) {
         Game game = items.get(adapterPosition);
         DataHolder.setCurrentGame(game);

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/favs"
-        android:icon="@drawable/ic_favorite_white_24dp"
+        android:icon="@drawable/like_white"
         app:showAsAction="ifRoom"
         android:title="Favs" />
 </menu>

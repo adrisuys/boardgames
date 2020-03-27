@@ -1,5 +1,7 @@
 package be.adrisuys.myapplication.model;
 
+import android.provider.ContactsContract;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -138,6 +140,7 @@ public class DBManager {
             JSONArray jsonCat = (JSONArray) response.get("categories");
             List<Categorie> categories = gson.fromJson(jsonCat.toString(), new TypeToken<List<Categorie>>(){}.getType());
             presenter.setCategories(categories);
+            DataHolder.setCategories(categories);
         } catch (JSONException e) {
             e.printStackTrace();
         }

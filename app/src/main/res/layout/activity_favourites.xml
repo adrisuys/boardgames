@@ -23,6 +23,7 @@
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/white"
             android:textSize="30dp"
+            android:id="@+id/title"
             android:textAlignment="center"
             android:text="My favourites"
             android:paddingTop="30dp"

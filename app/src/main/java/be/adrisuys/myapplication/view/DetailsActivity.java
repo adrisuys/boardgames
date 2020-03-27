@@ -42,17 +42,17 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void handleBtnClicked() {
         if (!DataHolder.isLiked(currentGame)){
-            likeBtn.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+            likeBtn.setBackgroundResource(R.drawable.like_bordered);
         } else {
-            likeBtn.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+            likeBtn.setBackgroundResource(R.drawable.like_filled);
         }
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (DataHolder.isLiked(currentGame)){
-                    likeBtn.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                    likeBtn.setBackgroundResource(R.drawable.like_bordered);
                 } else {
-                    likeBtn.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+                    likeBtn.setBackgroundResource(R.drawable.like_filled);
                 }
                 updateLike();
             }

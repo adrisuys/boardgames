@@ -1,8 +1,9 @@
 package be.adrisuys.myapplication.viewinterface;
 
-public interface FavsViewInterface {
+public interface SecondaryViewInterface {
     void backUp();
     void switchActivityToDetails();
     void displayNoGameLiked();
+    void displayNoGameOwned();
     void updateList();
 }
