@@ -92,7 +92,8 @@ public class DBManager {
         double averageUserRatings = jsonGame.optDouble("average_user_rating", 0);
         String imgUrl = jsonGame.optString("image_url", "");
         int minAge = jsonGame.optInt("min_age", 0);
-        Game game = new Game(name, yearPublished, minPlayers, maxPlayers, minPlaytime, maxPlaytime, description, numUserRatings, averageUserRatings, imgUrl, minAge);
+        double recommendedPrice = jsonGame.optDouble("msrp", 0);
+        Game game = new Game(name, yearPublished, minPlayers, maxPlayers, minPlaytime, maxPlaytime, description, numUserRatings, averageUserRatings, imgUrl, minAge, recommendedPrice);
         try{
             JSONArray arr = (JSONArray) jsonGame.get("categories");
             for (int i = 0; i < arr.length(); i++){

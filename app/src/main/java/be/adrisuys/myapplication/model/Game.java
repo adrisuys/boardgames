@@ -20,8 +20,9 @@ public class Game implements Serializable {
     private String imgUrl;
     private int minAge;
     private List<Categorie> categories;
+    private double recommendedPrice;
 
-    public Game(String name, int yearPublished, int minPlayers, int maxPlayers, int minPlaytime, int maxPlaytime, String description, int numUserRatings, double averageUserRatings, String imgUrl, int minAge) {
+    public Game(String name, int yearPublished, int minPlayers, int maxPlayers, int minPlaytime, int maxPlaytime, String description, int numUserRatings, double averageUserRatings, String imgUrl, int minAge, double recommendedPrice) {
         this.name = name;
         this.yearPublished = yearPublished;
         this.minPlayers = minPlayers;
@@ -34,6 +35,7 @@ public class Game implements Serializable {
         this.imgUrl = imgUrl;
         this.minAge = minAge;
         categories = new ArrayList<>();
+        this.recommendedPrice = recommendedPrice;
     }
 
     public void addCategorie(Categorie categorie) {
@@ -86,6 +88,11 @@ public class Game implements Serializable {
         return name + " (" + yearPublished + ")";
     }
 
+    public String getNameAndPrice(){
+        if (recommendedPrice == 0) return name;
+        return name + " (" + getRecommendedPrice() + ")";
+    }
+
     public String getMinAge() {
         if (minAge <= 0){
             return "?";
@@ -111,5 +118,18 @@ public class Game implements Serializable {
             }
         }
         return s;
+    }
+
+    private String getRecommendedPrice() {
+        if (recommendedPrice < 20){
+            return "€";
+        }
+        if (recommendedPrice < 40){
+            return "€€";
+        }
+        if (recommendedPrice < 60){
+            return "€€€";
+        }
+        return "€€€€";
     }
 }

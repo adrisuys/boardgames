@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements MainViewInterface
         }
 
         public void displayItem(Game item) {
-            name.setText(item.getName());
+            name.setText(item.getNameAndPrice());
             players.setText(item.getNumbersOfPlayers());
             time.setText(item.getPlayTime());
             age.setText(item.getMinAge());
